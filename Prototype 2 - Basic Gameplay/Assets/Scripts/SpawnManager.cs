@@ -26,7 +26,26 @@ public class SpawnManager : MonoBehaviour
     void SpawnAnimal()
     {
         int randomAnimal = Random.Range(0, animalPrefabs.Length);
-        Vector3 randomSpawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 0, spawnPositionZ);
-        Instantiate(animalPrefabs[randomAnimal], randomSpawnPos, animalPrefabs[randomAnimal].transform.rotation);
+        string[] rotationList = { "left", "right", "down" };
+        string rotationString = rotationList[Random.Range(0, rotationList.Length)];
+        Vector3 randomSpawnPos = new Vector3();
+        Quaternion rotation = new Quaternion();
+        switch(rotationString)
+        {
+            case "left":
+                rotation = Quaternion.LookRotation(Vector3.right);
+                randomSpawnPos = new Vector3(-30, 0, Random.Range(0, 15));
+                break;
+            case "right":
+                rotation = Quaternion.LookRotation(Vector3.left);
+                randomSpawnPos = new Vector3(35, 0, Random.Range(0, 15));
+                break;
+            case "down":
+                rotation = Quaternion.LookRotation(Vector3.back);
+                randomSpawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 0, spawnPositionZ);
+                break;
+        }
+
+        Instantiate(animalPrefabs[randomAnimal], randomSpawnPos, rotation);
     }
 }

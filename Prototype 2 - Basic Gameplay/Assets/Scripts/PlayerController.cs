@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int horizontalInput;
+    public int verticalInput;
     public float speed = 10f;
     public float xRange = 10f;
     public GameObject projectilePrefab;
@@ -30,7 +31,8 @@ public class PlayerController : MonoBehaviour
         //cast int because I want the player to move smoothly, stopping when button is let go,
         //moving at max speed when button is pressed in either direction
         horizontalInput = (int)Input.GetAxis("Horizontal");
-        transform.Translate(speed * horizontalInput * Time.deltaTime, 0, 0);
+        verticalInput = (int)Input.GetAxis("Vertical");
+        transform.Translate(speed * horizontalInput * Time.deltaTime, 0, speed * verticalInput * Time.deltaTime);
 
 
         if(Input.GetKeyDown(KeyCode.Space)) {
