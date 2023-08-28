@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Target : MonoBehaviour
 {
     private Rigidbody objectRb;
@@ -10,9 +11,15 @@ public class Target : MonoBehaviour
     public float strongestForce = 18f;
     public float weakestTorque = -10f;
     public float strongestTorque = 10f;
+    private GameManager gameManager;
+    public int liveChange;
+
+    public int pointValue;
+    public ParticleSystem explosionParticle;
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         objectRb = GetComponent<Rigidbody>();
         objectRb.AddForce(randomUpwardForce(), ForceMode.Impulse);
         objectRb.AddTorque(randomTorque(),randomTorque(),randomTorque(), ForceMode.Impulse);
@@ -27,12 +34,28 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
+        if (!gameManager.gameOverStatus)
+        {
+            Destroy(gameObject);
+            Instantiate(explosionParticle, transform.position, transform.rotation);
+            gameManager.updateScore(pointValue);
+            gameManager.updateLives(liveChange);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        if (!gameObject.CompareTag("Bad") && gameManager.lives <1)
+        {
+            gameManager.gameOver();
+        } else if(!gameObject.CompareTag("Bad") && gameManager.lives > 0)
+        {
+            
+            gameManager.updateLives(-1);
+        }
+
+
     }
 
     public Vector3 randomUpwardForce() 
@@ -49,4 +72,6 @@ public class Target : MonoBehaviour
     {
         return new Vector3(Random.Range(-4, 4), -3);
     }
+
+    
 }

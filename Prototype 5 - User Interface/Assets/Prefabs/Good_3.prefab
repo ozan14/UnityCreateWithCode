@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5304928783561353688
 MeshFilter:
@@ -150,3 +150,5 @@ MonoBehaviour:
   strongestForce: 16
   weakestTorque: -10
   strongestTorque: 10
+  pointValue: 5
+  explosionParticle: {fileID: 3199346384015752365, guid: 307229a5540374aae98859caad2128a3, type: 3}
